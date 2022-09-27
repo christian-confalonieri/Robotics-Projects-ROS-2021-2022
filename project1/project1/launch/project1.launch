@@ -1,0 +1,9 @@
+<launch>
+
+<param name="initial_x" type="double" value="0.0"/>
+<param name="initial_y" type="double" value="0.0"/>
+<param name="initial_theta" type="double" value="0.0"/>
+
+<node pkg="project1" name="fw_omnidirectional_robot_node" type="fw_omnidirectional_robot_odometry" output="screen"/>
+
+</launch>

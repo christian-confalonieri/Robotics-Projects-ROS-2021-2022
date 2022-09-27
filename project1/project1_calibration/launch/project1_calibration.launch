@@ -1,0 +1,5 @@
+<launch>
+
+<node pkg="project1_calibration" name="calibration_node" type="calibration" output="screen"/>
+
+</launch>

@@ -1,0 +1,124 @@
+-------------------------------------------------------------------------------------------------
+---------------------------------SECOND ROBOTICS PROJECT 2022------------------------------------
+-------------------------------------------------------------------------------------------------
+
+Name: Christian Confalonieri
+
+-------------------------------------------------------------------------------------------------
+--------------------------Description of the files inside the archive----------------------------
+-------------------------------------------------------------------------------------------------
+
+The archive contains 2 packages:
+
+1. ira_laser_tools-ros1-master: this library includes some tools for laser management in ROS. 
+In particular, laserscan_multi_merger is used for this project, which allows you to easily and 
+dynamically merge (rqt_reconfigure) multiple laser scans, at the same time and on a single plane, 
+into a single scan; this is very useful for using applications like gmapping, amcl, pamcl on 
+vehicles with multiple single scanning plane laser scanners, as these applications require just 
+one laser scan as input. 
+
+IMPORTANT: I did not make any changes to this library, just downloaded it and added it to the 
+archive.
+
+The library can be downloaded from: https://github.com/iralabdisco/ira_laser_tools
+
+2. project2, containing: 
+	- launch/amcl.launch: launch file used in the localization part of the project, 
+	  runs amcl node with proper settings
+	- launch/amcl.launch.xml: configuration file that holds the parameters used in amcl
+	- launch/gmapping.launch: launch file used for the creation of the map, creates a map 
+	  with slam_gmapping
+	- launch/gmapping.launch.xml: configuration file that holds the parameters used in 
+	  gmapping
+	- launch/scan_merger.launch: launch file used to merge the two laser scans into a 
+	  single one
+	- maps/map.pgm: the map resulted from gmapping robotics2_final.bag
+	- maps/map.yaml: description parameters correlated to map.pgm
+	- maps/trajectory_bag1.png: the map with the trajectory traced by the robot in the 
+	  "robotics1_final.bag" bag
+	- maps/trajectory_bag3.png: the map with the trajectory traced by the robot in the 
+	  "robotics3_final.bag" bag
+	- rviz/amcl_config.rviz: file with a custom configuration to visualize the robot with 
+	  rviz during localization
+	- rviz/gmapping_config.rviz: file with a custom configuration to visualize the robot 
+	  with rviz during the creation of the map using gmapping
+	- src/odom_tf.cpp: file initially created to publish odometry as TF, 
+	  is also used to publish trajectory as /Path and for the invocation of the 
+	  /print_trajectory service
+	- srv/PrintTrajectory.srv: file used by the service, does not contain request but only 
+	  a response in string form
+	- CMakeLists.txt
+	- package.xml
+
+It also contains two .png files and one .txt file:
+
+1. frames_amcl.png: the TF tree image related to amcl
+
+2. frames_gmapping.png: the TF tree image related to gmapping
+
+3. instruction.txt: this file, contains the description of the project components and startup 
+instructions
+
+-------------------------------------------------------------------------------------------------
+---------------------------------Structure of the TF tree----------------------------------------
+-------------------------------------------------------------------------------------------------
+
+I generated two TF tree images, one for gmapping and one for amcl, they can be seen in the files 
+previously mentioned (frames_gmapping.png, frames_amcl.png).
+
+TF trees are structured as follows:
+
+1. The TF tree for gmapping:
+	- map -> odom: broadcaster: /slam_gmapping
+	- odom -> base_link: broadcaster: /odom_tf
+	- base_link -> laser_front: broadcaster: /base_link_to_front
+	- base_link -> laser_rear: broadcaster: /base_link_to_rear
+	- base_link -> base_footprint: broadcaster: /base_link_to_scan
+
+2. The TF tree for amcl:
+	- map -> odom: broadcaster: /amcl 
+	- odom -> base_link: broadcaster: /odom_tf
+	- base_link -> laser_front: broadcaster: /base_link_to_front
+	- base_link -> laser_rear: broadcaster: /base_link_to_rear
+	- base_link -> base_footprint: broadcaster: /base_link_to_scan
+
+-------------------------------------------------------------------------------------------------
+----------------Bag used to create the map and bags used for trajectory tracking-----------------
+-------------------------------------------------------------------------------------------------
+
+1. For map creation: robotics2_final.bag
+
+2. For trajectory tracking: 
+	- robotics1_final.bag
+	- robotics3_final.bag
+
+-------------------------------------------------------------------------------------------------
+------------------------------------How to use the nodes-----------------------------------------
+-------------------------------------------------------------------------------------------------
+
+IMPORTANT: For the creations of the image containing map and trajectory I used the library 
+"OpenCV", so it is necessary to install it before execution.
+
+To use the gmapping launch file, type "roslaunch project2 gmapping.launch" on the command line 
+and then launch the bag (with --clock).
+Once the bag is finished, run map server to save the map (map.pgm and map.yaml) with the command
+"rosrun map_server map_saver -f map".
+The map should be named "map.pgm" (default name) and should be in the project2/maps folder, 
+since it is read as an image file to create the new files containing the trajectory via the 
+appropriate service (/print_trajectory).
+
+To use the amcl launch file write “roslaunch project2 amcl.launch” on your command line and then 
+start the bag (with --clock).
+During or at the end of the execution of the bag you can invoke the /print_trajectory service 
+via the "rosservice call /print_trajectory" command which will create a .png file in 
+project2/maps folder containing the map and trajectory at the time of invocation.
+
+-------------------------------------------------------------------------------------------------
+------------------------------------------Notes--------------------------------------------------
+-------------------------------------------------------------------------------------------------
+
+The /print_trajectory service can be called several times during the bag execution since at 
+each execution it deletes, if present, the file "map_trajectory.png" and creates the new updated 
+file with the same name.
+
+-------------------------------------------------------------------------------------------------
