@@ -17,14 +17,17 @@ Both projects were done on omnidirectional robots.
 
 More details can be found in the following pdf files:
 
-| **[First Project][specification1-link]**  |
-| **[Second Project][specification2-link]** |
+|                         |                         |
+|-------------------------|-------------------------|
+| **[First Project][specification1-link]**          | **[Second Project][specification2-link]**  |
+|                         |                         |
 
 Two instruction files with some information regarding the projects are available: 
 
-
-| **[First Project][instruction1-link]**  |
-| **[Second Project][instruction2-link]** |
+|                         |                         |
+|-------------------------|-------------------------|
+| **[First Project][instruction1-link]**          | **[Second Project][instruction2-link]**  |
+|                         |                         |
 
 ## Copyright and license
 
