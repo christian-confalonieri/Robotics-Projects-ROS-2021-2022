@@ -1,4 +1,4 @@
-# Robotics Projects 2021-2022
+# Robotics Projects
 
 [![License: MIT][license-image]][license]
 
