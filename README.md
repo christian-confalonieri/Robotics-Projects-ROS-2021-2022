@@ -2,7 +2,7 @@
 
 [![License: MIT][license-image]][license]
 
-These projects are part of the **"Robotics"** exam, course of **"Computer Engineering"** held at Politecnico di Milano (2021/2022).
+These projects are part of the **"Robotics"** exam, course of "**Computer Science and Engineering**" (BSc) held at Politecnico di Milano (2021/2022).
 
 **Professor**: Matteo Matteucci
 
